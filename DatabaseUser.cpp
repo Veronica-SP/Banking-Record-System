@@ -6,7 +6,7 @@ void DatabaseUser::setUsername(const string& username){
     }
 
     if(username.find(" ") !=  string::npos){
-        throw std::invalid_argument(USERNAME_CONTAINS_SPACE__ERR);
+        throw std::invalid_argument(USERNAME_CONTAINS_SPACE_ERR);
     }
 
     this->username = username;
@@ -18,7 +18,7 @@ void DatabaseUser::setPassword(const string& password){
     }
 
     if(password.find(" ") !=  string::npos){
-        throw std::invalid_argument(PASS_CONTAINS_SPACE__ERR);
+        throw std::invalid_argument(PASS_CONTAINS_SPACE_ERR);
     }
 
     this->password  = BCrypt::generateHash(password);

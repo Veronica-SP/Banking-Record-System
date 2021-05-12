@@ -2,9 +2,10 @@
 #define HELPER_FUNTIONS_H
 
 #include <string>
+using std::string;
 
-bool isOnlyDigits(std::string str);
-bool isEmpty(std::string str);
+bool isOnlyDigits(string str);
+bool isEmpty(string str);
 bool isValidName(string name);
 
 #endif
