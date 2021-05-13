@@ -1,5 +1,7 @@
 #include "Date.h"
 
+//private
+
 void Date::setDay(const int day) {
 
     if(day <= 1 && day >= 31){
@@ -68,10 +70,24 @@ void Date::setYear(const int year) {
     }while(fin.peek() == ' ' || fin.peek() == ',' || fin.peek() == ':');
 }*/
 
+//public
+
 Date::Date(const int day, const int month, const int year) {
     setYear(year);
     setMonth(month);
     setDay(day);
+}
+
+int Date::getDay() const{
+    return day;
+}
+
+int Date::getMonth() const{
+    return month;
+}
+
+int Date::getYear() const{
+    return year;
 }
 
 /*

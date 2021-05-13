@@ -1,6 +1,8 @@
 #include "Person.h"
 
-void Person::setEGN(string EGN){
+//protected:
+
+void Person::setEGN(const string& EGN){
     const int EGN_LENGTH = 10;
 
     if(!isOnlyDigits(EGN)){
@@ -15,7 +17,7 @@ void Person::setEGN(string EGN){
 
 }
 
-void Person::setName(string firstName, string secondName, string lastName){
+void Person::setName(const string& firstName, const string& secondName, const string& lastName){
     if(!isValidName(firstName) || !isValidName(secondName) || !isValidName(lastName)){
         throw std::invalid_argument(NAME_INVALID_ERR);
     }
@@ -23,7 +25,7 @@ void Person::setName(string firstName, string secondName, string lastName){
     this-> name = firstName + " " + secondName + " " + lastName;
 }
 
-void Person::setPhoneNumber(string phoneNumber){
+void Person::setPhoneNumber(const string& phoneNumber){
     const int PHONE_NUMBER_LENGTH = 10;
 
     if(!isOnlyDigits(phoneNumber)){
@@ -37,7 +39,7 @@ void Person::setPhoneNumber(string phoneNumber){
     this->phoneNumber = phoneNumber;
 }
 
-void Person::setAddress(string address){
+void Person::setAddress(const string& address){
     if(isEmpty(address)){
         throw std::invalid_argument(ADDRESS_EMPTY_ERR);
     }
@@ -46,9 +48,32 @@ void Person::setAddress(string address){
 
 }
 
-Person::Person(string EGN, string firstName, string secondName, string lastName, Date birthDate, string phoneNumber, string address): birthDate(birthDate){
+//public:
+
+Person::Person(const string& EGN, const string& firstName, const string& secondName, const string& lastName,
+                 const Date& birthDate, const string& phoneNumber, const string& address): birthDate(birthDate){
     setEGN(EGN);
     setName(firstName, secondName, lastName);
     setPhoneNumber(phoneNumber);
     setAddress(address);
+}
+
+string Person::getEGN() const{
+    return EGN;
+}
+
+string Person::getName() const{
+    return name;
+}
+
+const Date& Person::getBirthDate() const{
+    return birthDate;
+}
+
+string Person::getPhoneNumber() const{
+    return phoneNumber;
+}
+
+string Person::getAddress() const{
+    return address;
 }

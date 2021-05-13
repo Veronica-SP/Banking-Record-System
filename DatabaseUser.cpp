@@ -1,5 +1,7 @@
 #include "DatabaseUser.h"
 
+//private
+
 void DatabaseUser::setUsername(const string& username){
     if(isEmpty(username)){
         throw std::invalid_argument(USERNAME_EMPTY_ERR);
@@ -24,12 +26,18 @@ void DatabaseUser::setPassword(const string& password){
     this->password  = BCrypt::generateHash(password);
 }
 
+//public
+
 DatabaseUser::DatabaseUser(const string& username, const string& password){
     setUsername(username);
     setPassword(password);
 }
 
-void DatabaseUser::validatePassword(string password) const{
+string DatabaseUser::getUsername() const{
+    return username;
+}
+
+void DatabaseUser::validatePassword(const string& password) const{
     bool passIsValid = BCrypt::validatePassword(password, this->password);
 
     if(!passIsValid){

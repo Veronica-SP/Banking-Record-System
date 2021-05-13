@@ -16,14 +16,22 @@ private:
     string phoneNumber;
     string address;
 
-    void setEGN(string EGN);
-    void setName(string firstName, string secondName, string lastName);
-    void setPhoneNumber(string PhoneNumber);
-    void setAddress(string address);
+protected:
+    void setEGN(const string& EGN);
+    void setName(const string& firstName, const string& secondName, const string& lastName);
+    void setPhoneNumber(const string& PhoneNumber);
+    void setAddress(const string& address);
 
 public:
-    Person(string EGN, string firstName, string secondName, string lastName,
-             Date birthDate, string phoneNumber, string address);
+    Person(const string& EGN, const string& firstName, const string& secondName, const string& lastName,
+             const Date& birthDate, const string& phoneNumber, const string& address);
+
+    string getEGN() const;
+    string getName() const;
+    const Date& getBirthDate() const;
+    string getPhoneNumber() const;
+    string getAddress() const;
+
 };
 
 #endif

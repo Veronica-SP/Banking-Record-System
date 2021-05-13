@@ -21,7 +21,8 @@ private:
 public:
     DatabaseUser(const string& username, const string& password);
 
-    void validatePassword(string password) const;
+    string getUsername() const;
+    void validatePassword(const string& password) const;
 };
 
 #endif
