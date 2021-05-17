@@ -4,7 +4,8 @@
 #include "DatabaseUser.h"
 
 class Admin : public DatabaseUser{
-
+public:
+    Admin(const string& username, const string& password);
 };
 
 
