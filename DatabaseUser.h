@@ -22,6 +22,7 @@ protected:
 
 public:
     DatabaseUser(const string& username, const string& password);
+    virtual ~DatabaseUser() = default;
 
     string getUsername() const;
     void validatePassword(const string& password) const;

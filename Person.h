@@ -25,6 +25,7 @@ protected:
 public:
     Person(const string& EGN, const string& firstName, const string& secondName, const string& lastName,
              const Date& birthDate, const string& phoneNumber, const string& address);
+    virtual ~Person() = default;
 
     string getEGN() const;
     string getName() const;
