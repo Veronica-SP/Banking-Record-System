@@ -1,6 +1,6 @@
 #include "DatabaseUser.h"
 
-//private
+//protected
 
 void DatabaseUser::setUsername(const string& username){
     if(isEmpty(username)){

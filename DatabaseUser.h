@@ -15,6 +15,8 @@ private:
     string username;
     string password;
 
+protected:
+
     void setUsername(const string& username);
     void setPassword(const string& password);
 
