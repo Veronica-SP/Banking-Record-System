@@ -1,14 +1,10 @@
 #ifndef CARD_H
 #define CARD_H
 
-#include <string>
 #include <stdexcept>
-#include "Dependencies/libbcrypt/include/bcrypt/BCrypt.hpp"
-
-#include "messages.h"
-#include "helper-functions.h"
-
-using std::string;
+#include <iostream>
+#include <fstream>
+#include "helper-functions.hpp"
 
 class Card{
 private:
@@ -19,15 +15,23 @@ private:
     static const char* CARD_NUM_START;
     static const int PIN_LEN;
     
-
     void setCardNumber(const string& cardNumber);
     void setPIN(const string& PIN);
 
 public:
+    
+    Card() = default;
     Card(const string& cardNumber, const string& PIN);
+    
+    string getKey() const;
 
     string getCardNumber() const;
     void validatePIN(const string& PIN) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const Card& card);
+
+    void serialize(std::ofstream& fout) const;
+    friend std::istream& operator>>(std::istream& fin, Card& card);
 };
 
 

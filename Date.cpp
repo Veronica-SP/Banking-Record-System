@@ -50,25 +50,6 @@ void Date::setYear(const int year) {
     this->year = year;
 
 }
-/*void DateTime::serialize(std::ostream& fout) const {
-    fout << std::setw(2) << std::setfill('0') << day << " ";
-    fout << months[month - 1] << " ";
-    fout << std::setw(4) << std::setfill('0') << year << ", ";
-    fout << std::setw(2) << std::setfill('0') << hours << ":";
-    fout << std::setw(2) << std::setfill('0') << minutes << ":";
-    fout << std::setw(2) << std::setfill('0') << seconds;
-}*/
-
-/*void DateTime::inputNumber(std::ifstream& fin, int& number, const int length){
-    char numberArr[length];
-
-    fin.read(numberArr, length);
-    number = atoi(numberArr);
-
-    do{
-        fin.get();
-    }while(fin.peek() == ' ' || fin.peek() == ',' || fin.peek() == ':');
-}*/
 
 //public
 
@@ -90,27 +71,23 @@ int Date::getYear() const{
     return year;
 }
 
-/*
-void Date::writeToFile(std::ofstream& fout) const {
-    serialize(fout);
+std::ostream& operator<<(std::ostream& out, const Date& date){
+    const string separator = "/";
+
+    out << date.day << separator << date.month << separator << date.year;
+
+    return out;
 }
 
-void Date::readFromFile(std::ifstream& fin) {
-    
-    inputNumber(fin, day, 2);
+void Date::serialize(std::ofstream& fout) const{
+    const string separator = " ";
 
-    char  monthInText[4];
-    fin.get(monthInText, 4);
-    month = getMonthNumber(monthInText);
-    fin.get();
-
-    inputNumber(fin, year, 4);
-    inputNumber(fin, hours, 2);
-    inputNumber(fin, minutes, 2);
-    inputNumber(fin, seconds, 2);
+    fout << day << separator << month << separator << year;
 }
 
-void Date::printTimestamp() const {
-    serialize(std::cout);
+std::istream& operator>>(std::istream& fin, Date& date){
+
+    fin >> date.day >> date.month >> date.year;
+
+    return fin;
 }
-*/

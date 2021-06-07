@@ -3,6 +3,11 @@
 
 #include <stdexcept>
 #include "messages.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using std::string;
 
 class Date{
 private:
@@ -14,17 +19,18 @@ private:
     void setMonth(const int month);
     void setYear(const int year);
 
-    //void inputNumber(std::ifstream& fin, int& number, const int length);
-    //oid DateTime::serialize(std::ostream& fout) const;
 public:
+    Date() = default;
     Date(const int day, const int month, const int year);
     
     int getDay() const;
     int getMonth() const;
     int getYear() const;
-   // void writeToFile(std::ofstream&) const;
-    //void readFromFile(std::ifstream&);
-    //void printTimestamp() const;
+    
+    friend std::ostream& operator<<(std::ostream& out, const Date& date);
+
+    void serialize(std::ofstream& out) const;
+    friend std::istream& operator>>(std::istream& fin, Date& date);
 };
 
 #endif 

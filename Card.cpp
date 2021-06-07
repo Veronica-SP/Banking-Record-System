@@ -31,7 +31,7 @@ void Card::setPIN(const string& PIN){
         throw std::invalid_argument(PIN_CONTAINS_NONDIGIT_ERR);
     }
 
-    this->PIN  = BCrypt::generateHash(PIN);
+    this->PIN  = PIN;
 }
 
 Card::Card(const string& cardNumber, const string& PIN){
@@ -41,14 +41,39 @@ Card::Card(const string& cardNumber, const string& PIN){
 
 //public
 
+string Card::getKey() const{
+    return cardNumber;
+}
+
 string Card::getCardNumber() const{
     return cardNumber;
 }
 
+
 void Card::validatePIN(const string& PIN) const{
-    bool PINIsValid = BCrypt::validatePassword(PIN, this->PIN);
+    bool PINIsValid = PIN.compare(this->PIN);
 
     if(!PINIsValid){
         throw std::logic_error(PIN_WRONG_ERR);
     }
+}
+
+std::ostream& operator<<(std::ostream& out, const Card& card){
+    out << "----Card-----" << std::endl;
+    out << "Card number: " << card.cardNumber << std::endl;
+    out << "PIN: " << card.PIN;
+
+    return out;
+}
+
+void Card::serialize(std::ofstream& fout) const{
+    const string separator = " ";
+    fout << cardNumber << separator << PIN;
+}
+
+std::istream& operator>>(std::istream& fin, Card& card){
+
+    fin >> card.cardNumber >> card.PIN;
+
+    return fin;
 }

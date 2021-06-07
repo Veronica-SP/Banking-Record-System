@@ -1,14 +1,7 @@
 #ifndef BANK_ACCOUNT_H
 #define BANK_ACCOUNT_H
 
-#include <string>
-#include <vector>
 #include "Card.h"
-
-#include "messages.h"
-
-using std::string;
-using std::vector;
 
 class BankAccount{
 private:
@@ -23,17 +16,27 @@ private:
     void setBalance(const double balance);
 
 public:
-    BankAccount(const string& IBAN, const double balance = 0.0);
     
+    BankAccount() = default;
+    BankAccount(const string& IBAN, const double balance = 0.0);
+
+    string getKey() const;
+
     string getIBAN() const;
     double getBalance() const;
     int getNumberOfCards() const;
-    const Card& getCard(const string& cardNumber);
+    Card& getCard(const string& cardNumber);
 
     void addCard(const Card& newCard);
+    void removeCard(const string& cardNumber);
+
     void deposit(const int amount);
     void withdraw(const int amount);
-    
+
+    friend std::ostream& operator<<(std::ostream& out, const BankAccount& account);
+
+    void serialize(std::ofstream& fout) const;
+    friend std::istream& operator>>(std::istream& fin, BankAccount& card);
 };
 
 
