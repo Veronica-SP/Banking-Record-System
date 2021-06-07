@@ -22,7 +22,9 @@ void Person::setName(const string& firstName, const string& secondName, const st
         throw std::invalid_argument(NAME_INVALID_ERR);
     }
 
-    this-> name = firstName + " " + secondName + " " + lastName;
+    this->firstName = firstName;
+    this->secondName = secondName;
+    this->lastName = lastName;
 }
 
 void Person::setPhoneNumber(const string& phoneNumber){
@@ -44,11 +46,12 @@ void Person::setAddress(const string& address){
         throw std::invalid_argument(ADDRESS_EMPTY_ERR);
     }
 
+    if(address[0] != '\"' || address[address.length() - 1] != '\"'){
+        throw std::invalid_argument(ADDRESS_PARANTH_ERR);
+    }
     this->address = address;
 
 }
-
-//public:
 
 Person::Person(const string& EGN, const string& firstName, const string& secondName, const string& lastName,
                  const Date& birthDate, const string& phoneNumber, const string& address): birthDate(birthDate){
@@ -58,12 +61,18 @@ Person::Person(const string& EGN, const string& firstName, const string& secondN
     setAddress(address);
 }
 
+//public:
+
+string Person::getKey() const{
+    return EGN;
+}
+
 string Person::getEGN() const{
     return EGN;
 }
 
 string Person::getName() const{
-    return name;
+    return firstName + " " + secondName + " " + lastName;
 }
 
 const Date& Person::getBirthDate() const{
@@ -76,4 +85,42 @@ string Person::getPhoneNumber() const{
 
 string Person::getAddress() const{
     return address;
+}
+
+std::ostream& operator<<(std::ostream& out, const Person& person){
+    out << "EGN: " << person.EGN << std::endl;
+    out << "Name: " << person.getName() << std::endl;
+    out << "Birth date: " << person.birthDate << std::endl;
+    out << "Phone number: " << person.phoneNumber << std::endl;
+    out << "Address: " << person.address;
+
+    return out;
+}
+void Person::serialize(std::ofstream& fout) const{
+    const string separator = " ";
+
+    fout << EGN << separator << getName() << separator;
+    birthDate.serialize(fout);
+    fout << separator << phoneNumber << separator << address;
+}
+
+std::istream& operator>>(std::istream& fin, Person& person){
+
+    fin >> person.EGN >> person.firstName >> person.secondName >> person.lastName
+        >> person.birthDate >> person.phoneNumber;
+
+    while(fin.peek() != '\"'){
+        fin.get();
+    }
+    
+    person.address += fin.get();
+
+    string addressTemp;
+    getline(fin, addressTemp, '\"');
+    fin.get();
+    
+    person.address += addressTemp;
+    person.address += "\"";
+
+    return fin;
 }

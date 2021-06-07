@@ -5,6 +5,7 @@
 
 class Admin : public DatabaseUser{
 public:
+    Admin() = default;
     Admin(const string& username, const string& password);
 };
 

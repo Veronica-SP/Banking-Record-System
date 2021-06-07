@@ -7,7 +7,7 @@ void DatabaseUser::setUsername(const string& username){
         throw std::invalid_argument(USERNAME_EMPTY_ERR);
     }
 
-    if(username.find(" ") !=  string::npos){
+    if(username.find(" ") != string::npos){
         throw std::invalid_argument(USERNAME_CONTAINS_SPACE_ERR);
     }
 
@@ -26,12 +26,12 @@ void DatabaseUser::setPassword(const string& password){
     this->password  = BCrypt::generateHash(password);
 }
 
-//public
-
 DatabaseUser::DatabaseUser(const string& username, const string& password){
     setUsername(username);
     setPassword(password);
 }
+
+//public
 
 string DatabaseUser::getUsername() const{
     return username;
@@ -43,4 +43,24 @@ void DatabaseUser::validatePassword(const string& password) const{
     if(!passIsValid){
         throw std::logic_error(PASS_WRONG_ERR);
     }
+}
+
+std::ostream& operator<<(std::ostream& out, const DatabaseUser& user){
+    out << "Username: " << user.username << std::endl;
+    out << "Password: " << user.password;
+
+    return out;
+}
+
+void DatabaseUser::serialize(std::ofstream& fout) const {
+    const string separator = " ";
+
+    fout << username << separator << password;
+}
+
+std::istream& operator>>(std::istream& fin, DatabaseUser& user){
+
+    fin >> user.username >> user.password;
+
+    return fin;
 }

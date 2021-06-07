@@ -8,16 +8,53 @@ int Client::getNumberOfAccounts() const{
     return accounts.size();
 }
 
-const BankAccount& Client::getAccount(const string& IBAN) const{
-    for(int i = 0; i < accounts.size(); i++){
-        if(IBAN.compare(accounts[i].getIBAN()) == 0){
-            return accounts[i];
-        }
+BankAccount& Client::getAccount(const string& IBAN) {
+    try{
+        return getItemInCollection(accounts, IBAN);
+    }catch(std::invalid_argument){
+        throw std::invalid_argument(NO_SUCH_ACCOUNT_ERR);
     }
-
-    throw std::invalid_argument(NO_SUCH_ACCOUNT_ERR + IBAN);
 }
-    
+
 void Client::addAccount(const BankAccount& newAccount){
     accounts.push_back(newAccount);
+}
+
+void Client::removeAccount(const string& IBAN){
+    try{
+        removeItemFromCollection(accounts, IBAN);
+    }catch(std::invalid_argument){
+        throw std::invalid_argument(NO_SUCH_ACCOUNT_ERR);
+    }
+
+}
+
+std::ostream& operator<<(std::ostream& out, const Client& client){
+    out << "-------Client-------" << std::endl;
+    out << (Person)client << std::endl;
+
+    int numberOfAccounts = client.getNumberOfAccounts();
+    out << "Number of accounts: " << numberOfAccounts << std::endl;
+
+    for(int i = 0; i < numberOfAccounts; i++){
+        out << client.accounts[i] << std::endl;
+    }
+
+    return out;
+}
+
+void Client::serialize(std::ofstream& fout) const{
+    const string separator = " ";
+
+    Person::serialize(fout);
+    fout << separator;
+    ::serialize(fout, accounts, separator);
+}
+
+std::istream& operator>>(std::istream& fin, Client& client){
+    
+    fin >> (Person&) client;
+    fin >> client.accounts;
+
+    return fin;
 }
