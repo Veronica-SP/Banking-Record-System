@@ -1,31 +1,29 @@
 #include "Employee.h"
 
+//public-----------------------------
+
 Employee::Employee(const string& username, const string& password, 
-             const string& EGN, const string& firstName, const string& secondName, const string& lastName,
+             const string& EGN, const string& firstName, const string& middleName, const string& lastName,
              const Date& birthDate, const string& phoneNumber, const string& address)
             :DatabaseUser(username, password),
-             Person(EGN, firstName, secondName, lastName, birthDate, phoneNumber, address){}
-
-std::ostream& operator<<(std::ostream& out, const Employee& employee){
-    out << "-------Employee-------" << std::endl;
-    out << (DatabaseUser)employee << std::endl << (Person)employee;
-    
-    return out;
-}
+             Person(EGN, firstName, middleName, lastName, birthDate, phoneNumber, address){}
 
 void Employee::serialize(std::ofstream& fout) const{
-    const string separator = " ";
+    const char* separator = " ";
 
     DatabaseUser::serialize(fout);
     fout << separator;
     Person::serialize(fout);
 }
 
-std::istream& operator>>(std::istream& fin, Employee& employee){
-    string separator;
+void Employee::deserialize(std::istream& fin){
+    DatabaseUser::deserialize(fin);
+    Person::deserialize(fin);
+}
 
-    fin >> (DatabaseUser&) employee;
-    fin >> (Person&) employee;
+std::ostream& operator<<(std::ostream& out, const Employee& employee){
+    out << "-------Employee-------" << std::endl;
+    out << (DatabaseUser)employee << std::endl << (Person)employee;
     
-    return fin;
+    return out;
 }

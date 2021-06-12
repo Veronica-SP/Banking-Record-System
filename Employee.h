@@ -6,16 +6,17 @@
 
 class Employee : public DatabaseUser, public Person{
 public:
-
     Employee() = default;
     Employee(const string& username, const string& password, 
-             const string& EGN, const string& firstName, const string& secondName, const string& lastName,
+             const string& EGN, const string& firstName, const string& middleName, const string& lastName,
              const Date& birthDate, const string& phoneNumber, const string& address);
 
-    friend std::ostream& operator<<(std::ostream& out, const Employee& employee);
-
+    //file input/output
     void serialize(std::ofstream& fout) const;
-    friend std::istream& operator>>(std::istream& fin, Employee& employee);
+    void deserialize(std::istream& fin);
+
+    //console output
+    friend std::ostream& operator<<(std::ostream& out, const Employee& employee);
 };
 
 
