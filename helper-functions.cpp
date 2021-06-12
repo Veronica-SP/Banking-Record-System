@@ -42,3 +42,14 @@ bool isValidName(const string& name){
     return true;
     
 }
+
+string strToLower(const string& str){
+    string newStr;
+
+    for (int i = 0; i < str.length(); i++)
+    {
+        newStr += tolower(str[i]);
+    }
+    
+    return newStr;
+}
