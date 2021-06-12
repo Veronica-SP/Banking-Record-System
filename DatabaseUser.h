@@ -2,11 +2,9 @@
 #define DATABASEUSER_H
 
 #include <stdexcept>
-#include "Dependencies/libbcrypt/include/bcrypt/BCrypt.hpp"
-#include <fstream>
-#include "helper-functions.hpp"
 
-using std::string;
+#include "./Dependencies/libbcrypt/include/bcrypt/BCrypt.hpp"
+#include "helper-functions.hpp"
 
 class DatabaseUser{
 private:
@@ -14,7 +12,6 @@ private:
     string password;
 
 protected:
-
     void setUsername(const string& username);
     void setPassword(const string& password);
 
@@ -23,12 +20,14 @@ protected:
 
 public:
     string getUsername() const;
-    void validatePassword(const string& password) const;
+    bool validatePassword(const string& password) const;
 
-    friend std::ostream& operator<<(std::ostream& out, const DatabaseUser& user);
-
+    //file input/output
     void serialize(std::ofstream& fout) const;
-    friend std::istream& operator>>(std::istream& fin, DatabaseUser& user);
+    void deserialize(std::istream& fin);
+
+    //console output
+    friend std::ostream& operator<<(std::ostream& out, const DatabaseUser& user);
 };
 
 #endif

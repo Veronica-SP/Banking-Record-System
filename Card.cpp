@@ -1,10 +1,10 @@
 #include "Card.h"
 
-//private
+//private-------------------------------------------
 
+const char* Card::CARD_NUM_START = "00";
 const int Card::MIN_CARD_NUM_LEN = 7;
 const int Card::PIN_LEN = 4;
-const char* Card::CARD_NUM_START = "00";
 
 void Card::setCardNumber(const string& cardNumber){
     if(cardNumber.length() < MIN_CARD_NUM_LEN){
@@ -34,46 +34,48 @@ void Card::setPIN(const string& PIN){
     this->PIN  = PIN;
 }
 
+//public-------------------------------------------
+
 Card::Card(const string& cardNumber, const string& PIN){
     setCardNumber(cardNumber);
     setPIN(PIN);
-}
-
-//public
-
-string Card::getKey() const{
-    return cardNumber;
 }
 
 string Card::getCardNumber() const{
     return cardNumber;
 }
 
+string Card::getKey() const{
+    return cardNumber;
+}
 
-void Card::validatePIN(const string& PIN) const{
-    bool PINIsValid = PIN.compare(this->PIN);
+bool Card::validatePIN(const string& PIN) const{
+    return this->PIN == PIN;
+}
 
-    if(!PINIsValid){
-        throw std::logic_error(PIN_WRONG_ERR);
-    }
+void Card::serialize(std::ofstream& fout) const{
+    const char* separator = " ";
+    fout << cardNumber << separator << PIN;
+}
+
+void Card::deserialize(std::istream& fin){
+    fin >> cardNumber >> PIN;
 }
 
 std::ostream& operator<<(std::ostream& out, const Card& card){
-    out << "----Card-----" << std::endl;
+    out << "-----Card-----" << std::endl;
     out << "Card number: " << card.cardNumber << std::endl;
     out << "PIN: " << card.PIN;
 
     return out;
 }
 
-void Card::serialize(std::ofstream& fout) const{
-    const string separator = " ";
-    fout << cardNumber << separator << PIN;
-}
+string Card::generateRandPIN(){
 
-std::istream& operator>>(std::istream& fin, Card& card){
+    int n1 = rand() % 10;
+    int n2 = rand() % 10;
+    int n3 = rand() % 10;
+    int n4 = rand() % 10;
 
-    fin >> card.cardNumber >> card.PIN;
-
-    return fin;
+    return std::to_string(n1) + std::to_string(n2) + std::to_string(n3) + std::to_string(n4);
 }

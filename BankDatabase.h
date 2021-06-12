@@ -11,12 +11,11 @@ private:
     vector<Employee> employees;
     vector<Client> clients;
 
+    //static fields
     static const char* ADMIN_FILENAME;
     static const char* EMPLOYEES_FILENAME;
     static const char* CLIENTS_FILENAME;
 
-    void loadDatabase();
-    void serializeDatabase();
     void copyDatabase(const BankDatabase& other);
 
 public:
@@ -27,15 +26,27 @@ public:
 
     bool hasAdmin() const;
     void setAdmin(const Admin& admin);
+    Admin& getAdmin();
 
-    void addEmployee(const Employee& newEmployee);
     Employee& getEmployeeByEGN(const string& EGN);
     Employee& getEmployeeByUsername(const string& username);
+
+    Client& getClientByEGN(const string& EGN);
+    Client& getClientByCard(const string& cardNumber);
+
+    //admin actions
+    void addEmployee(const Employee& newEmployee);
     void removeEmployee(const string& EGN);
 
+    //employee actions
     void addClient(const Client& newClient);
-    Client& getClient(const string& EGN);
     void removeClient(const string& EGN);
+    void printClientsReport() const;
+    void printIndividualReport(const string& EGN);
+
+    //file input/output
+    void serializeDatabase() const;
+    void deserializeDatabase();
 };
 
 #endif

@@ -7,22 +7,35 @@
 class Client : public Person{
 private:
     vector<BankAccount> accounts;
+    int numberOfCards;
 
 public:
     Client() = default;
-    Client(const string& EGN, const string& firstName, const string& secondName, const string& lastName,
+    Client(const string& EGN, const string& firstName, const string& middleName, const string& lastName,
              const Date& birthDate, const string& phoneNumber, const string& address);
     
-    int getNumberOfAccounts() const;
-    BankAccount& getAccount(const string& IBAN);
+    string generateIBAN() const;
+    string generateCardNumber() const;
 
+    int getNumberOfAccounts() const;
+    int getNumberOfCards() const;
+    BankAccount& getAccountByIBAN(const string& IBAN);
+    //find account from login info
+    BankAccount& getAccountByCard(const string& cardNumber);
+    Card& getCard(const string& cardNumber);
+
+    //employee actions
     void addAccount(const BankAccount& newAccount);
     void removeAccount(const string& IBAN);
+    void addCard(const string& IBAN, const Card& newCard);
+    void removeCard(const string& IBAN, const string& cardNumber);
 
-    friend std::ostream& operator<<(std::ostream& out, const Client& client);
-
+    //file input/output
     void serialize(std::ofstream& fout) const;
-    friend std::istream& operator>>(std::istream& fin, Client& client);
+    void deserialize(std::istream& fin);
+
+    //console output
+    friend std::ostream& operator<<(std::ostream& out, const Client& client);
 };
 
 

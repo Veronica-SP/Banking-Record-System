@@ -8,37 +8,37 @@ class Person{
 private:
     string EGN;
     string firstName;
-    string secondName;
+    string middleName;
     string lastName;
     Date birthDate;
     string phoneNumber;
     string address;
 
+    //static fields
+    static const int EGN_LEN;
+    static const int PHONE_NUMBER_LEN;
+
 protected:
     void setEGN(const string& EGN);
-    void setName(const string& firstName, const string& secondName, const string& lastName);
-    void setPhoneNumber(const string& PhoneNumber);
+    void setName(const string& firstName, const string& middleName, const string& lastName);
+    void setPhoneNumber(const string& phoneNumber);
     void setAddress(const string& address);
 
     Person() = default;
-    Person(const string& EGN, const string& firstName, const string& secondName, const string& lastName,
+    Person(const string& EGN, const string& firstName, const string& middleName, const string& lastName,
              const Date& birthDate, const string& phoneNumber, const string& address);
 
 public:
 
+    string getEGN() const;
     string getKey() const;
 
-    string getEGN() const;
-    string getName() const;
-    const Date& getBirthDate() const;
-    string getPhoneNumber() const;
-    string getAddress() const;
-
-
-    friend std::ostream& operator<<(std::ostream& out, const Person& person);
-
+    //file input/output
     void serialize(std::ofstream& fout) const;
-    friend std::istream& operator>>(std::istream& fin, Person& person);
+    void deserialize(std::istream& fin);
+
+    //console output
+    friend std::ostream& operator<<(std::ostream& out, const Person& person);
 
 };
 
